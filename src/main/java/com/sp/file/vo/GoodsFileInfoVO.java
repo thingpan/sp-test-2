@@ -16,6 +16,5 @@ public class GoodsFileInfoVO {
 		private String gfiPath;
 		private String gfiOrginName;
 		private int giNum;
-		private MultipartFile file;
 		private Status status;
 }
