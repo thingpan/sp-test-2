@@ -31,12 +31,11 @@
 		const formData =new FormData();
 		formData.append('giName','홍개라면');
 		formData.append('giDesc','맛있다!!');
-		for(const file of files){
-			formData.append('files',file.files[0]);
-		}
-		for(const sort of sorts){
-			formData.append('sorts',sort.value)
-		}
+		for(let i=0; i<files.length; i++){
+			formData.append(`goodsFiles[${i}.file`,files[i].files[0]);
+			formData.append(`goodsFiles[${i}.gfiSort`,sorts[i].value);
+			formData.append(`goodsFiles[${i}].status`,'INSERT');
+			}
 		const xhr =new XMLHttpRequest();
 		xhr.open('POST','/goods-infos');
 		xhr.onreadystatechange =function(){
