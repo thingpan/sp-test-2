@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+<input type="text" id="giName"><br>
+<textarea id="giDesc"></textarea><br>
+<div id ="fileDiv">
+<input type="file" id="file1"><input type ="number" id="sort" value="1"><button onclick="addFileInput(this)">+</button>
+</div>
+
+<button onclick="addGoodsInfo()">등록</button>
+<script>
+		function addFileInput(button){
+ 		const files  =document.querySelectorAll('input[type=file]');
+		const fileId ='file'+(files.length+1);
+		const html =`<div id =fileDiv${files.length+1}><input type="file" id="${fileId}">`
+		+`<input type="text" id="sort${files.length+1}" value="${files.length+1}">`
+		+`<button onclick="removeFileInput('fileDiv${files.length+1}')">-</button>${button.outerHTML}</div>`;
+		button.remove(); 
+		document.querySelector('#fileDiv').insertAdjacentHTML('beforeend',html)
+	}
+	function removeFileInput(divId){
+		document.querySelector(`#${divId}`).remove();
+	}
+	function addGoodsInfo(){
+		const files =document .querySelectorAll('input[type =file]');
+		const sorts =document.querySelectorAll('input[id^=sort]');
+		const formData =new FormData();
+		formData.append('giName','홍개라면');
+		formData.append('giDesc','맛있다!!');
+		for(const file of files){
+			formData.append('files',file.files[0]);
+		}
+		for(const sort of sorts){
+			formData.append('sorts',sort.value)
+		}
+		const xhr =new XMLHttpRequest();
+		xhr.open('POST','/goods-infos');
+		xhr.onreadystatechange =function(){
+			if(xhr.readyState === xhr.DONE){
+				if(xhr.status ===200){
+					alert(xhr.responseText);
+				}
+			}
+		}
+		xhr.send(formData);
+	}
+</script>
+</body>
+</html>
