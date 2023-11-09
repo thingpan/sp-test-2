@@ -2,7 +2,9 @@ package com.sp.file.service.Impl;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sp.file.mapper.GoodsInfoMapper;
 import com.sp.file.service.GoodsFileInfoService;
@@ -12,7 +14,7 @@ import com.sp.file.vo.GoodsInfoVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
+@Primary
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -22,6 +24,7 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
 	private final GoodsFileInfoService goodsFileService;
 
 	@Override
+	@Transactional
 	public int insertGoodsInfo(GoodsInfoVO goods) {
 		int result =goodsMapper.insertGoodsInfo(goods);
 		log.info("giNum=>{}",goods.getGiNum());
@@ -36,7 +39,10 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
 
 	@Override
 	public GoodsInfoVO selectGoodsInfo(int giNum) {
-		return goodsMapper.selectGoodsInfo(giNum);
+		GoodsInfoVO goodsInfo =goodsMapper.selectGoodsInfo(giNum);
+		List<GoodsFileInfoVO> files =goodsFileService.selectGoodsFileInfos(giNum);
+		goodsInfo.setGoodsFiles(files);
+		return goodsInfo;
 	}
 
 }
