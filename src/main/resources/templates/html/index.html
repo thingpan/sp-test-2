@@ -32,8 +32,8 @@
 		formData.append('giName','홍개라면');
 		formData.append('giDesc','맛있다!!');
 		for(let i=0; i<files.length; i++){
-			formData.append(`goodsFiles[${i}.file`,files[i].files[0]);
-			formData.append(`goodsFiles[${i}.gfiSort`,sorts[i].value);
+			formData.append(`goodsFiles[${i}].file`,files[i].files[0]);
+			formData.append(`goodsFiles[${i}].gfiSort`,sorts[i].value);
 			formData.append(`goodsFiles[${i}].status`,'INSERT');
 			}
 		const xhr =new XMLHttpRequest();
@@ -41,7 +41,7 @@
 		xhr.onreadystatechange =function(){
 			if(xhr.readyState === xhr.DONE){
 				if(xhr.status ===200){
-					alert(xhr.responseText);
+				 alert
 				}
 			}
 		}

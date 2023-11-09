@@ -16,6 +16,5 @@ public class GoodsInfoVO {
 	private int giNum;
 	private String giName;
 	private String giDesc;
-	private List<MultipartFile> files;
 	private List<GoodsFileInfoVO> goodsFiles;
 }

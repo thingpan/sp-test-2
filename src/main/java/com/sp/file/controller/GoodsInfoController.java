@@ -28,7 +28,6 @@ public class GoodsInfoController {
 	}
 	@PostMapping("/goods-infos")
 	public int addGoodsInfos(GoodsInfoVO goods) {
-		log.info("goods=>{}",goods);
-		return 1;
+		return goodsService.insertGoodsInfo(goods);
 	}
 }

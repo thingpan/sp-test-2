@@ -12,9 +12,12 @@ import lombok.ToString;
 @Setter
 @ToString
 public class GoodsFileInfoVO {
-		private int gfiNum;
-		private String gfiPath;
-		private String gfiOrginName;
-		private int giNum;
-		private Status status;
+	private int gfiNum;
+	private String gfiPath;
+	private String gfiOriginName;
+	private int giNum;
+	private Status status;
+	private MultipartFile file;
+	private int gfiSort;
+
 }
