@@ -29,6 +29,8 @@ public class SecurityConfig {
 		.permitAll()
 		.anyRequest()
 		.authenticated()
+		)
+		.formLogin(f1->f1.loginPage("/html/login")
 		);
 		return hs.build();
 	}

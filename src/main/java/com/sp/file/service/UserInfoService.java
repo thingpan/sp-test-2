@@ -3,10 +3,11 @@ package com.sp.file.service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.sp.file.mapper.UserInfoMapper;
 import com.sp.file.vo.UserInfoVO;
-
+@Service
 public class UserInfoService implements UserDetailsService {
 	private UserInfoMapper userInfoMapper;
 
