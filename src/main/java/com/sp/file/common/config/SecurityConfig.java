@@ -31,6 +31,8 @@ public class SecurityConfig {
 		.authenticated()
 		)
 		.formLogin(f1->f1.loginPage("/html/login")
+			.usernameParameter("uiId")
+			.passwordParameter("uiPwd")
 		);
 		return hs.build();
 	}
