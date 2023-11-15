@@ -3,5 +3,7 @@ package com.sp.file.mapper;
 import com.sp.file.vo.UserInfoVO;
 
 public interface UserInfoMapper {
- UserInfoVO selectUserInfoById(String uiId);
+	UserInfoVO selectUserInfoById(String uiId);
+
+	int insertUserInfo(UserInfoVO user);
 }
