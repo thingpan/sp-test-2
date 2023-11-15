@@ -7,6 +7,8 @@ import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +36,12 @@ public class GoodsInfoController {
 		return goodsService.selectGoodsInfo(giNum);
 	}
 	@PostMapping("/goods-infos")
-	public int addGoodsInfos(GoodsInfoVO goods) {
+	public int addGoodsInfos(@ModelAttribute GoodsInfoVO goods) {
+		log.info("goods=>{}", goods);
 		return goodsService.insertGoodsInfo(goods);
+	}
+	@PatchMapping("/goods-infos")
+	public int modifyGoodsInfos(GoodsInfoVO goods) {
+		return 1;
 	}
 }

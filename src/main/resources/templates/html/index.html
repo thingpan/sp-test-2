@@ -1,56 +1,62 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+	<meta charset="EUC-KR">
+	<title>Insert title here</title>
 </head>
+
 <body>
-<input type="text" id="giName"><br>
-<textarea id="giDesc"></textarea><br>
-<div id ="fileDiv" style ="border:1px solid blue">
-	<img src="" style="width:100px" id="img1">
-<input type="file" id="file1" onchange="preview(this,'img1')"><input type ="number" id="sort" value="1"><button onclick="addFileInput(this)">+</button>
-</div>
-<button onclick="addGoodsInfo()">등록</button>
-<script>
-	function preview(fileInput,imgId){
-		document.querySelector(`#${imgId}`).src=URL.createObjectURL(fileInput.files[0]);
-	}
-		function addFileInput(button){
- 		const files  =document.querySelectorAll('input[type=file]');
-		const fileId ='file'+(files.length+1);
-		const html =`<div id ="fileDiv${files.length+1}"><img src=""style="width:100px" id="img${files.length+1}>`
-		+`<input type="file" id="${fileId}" onchange="preview(this,'img${files.length+1}')">`
-		+`<input type="number" id="sort${files.length+1}" value="${files.length+1}">`
-		+`<button onclick="removeFileInput('fileDiv${files.length+1}')">-</button>${button.outerHTML}</div>`;
-		button.remove(); 
-		document.querySelector('#fileDiv').insertAdjacentHTML('beforeend',html)
-	}
-	function removeFileInput(divId){
-		document.querySelector(`#${divId}`).remove();
-	}
-	function addGoodsInfo(){
-		const files =document .querySelectorAll('input[type =file]');
-		const sorts =document.querySelectorAll('input[id^=sort]');
-		const formData =new FormData();
-		formData.append('giName','홍개라면');
-		formData.append('giDesc','맛있다!!');
-		for(let i=0; i<files.length; i++){
-			formData.append(`goodsFiles[${i}].file`,files[i].files[0]);
-			formData.append(`goodsFiles[${i}].gfiSort`,sorts[i].value);
-			formData.append(`goodsFiles[${i}].status`,'INSERT');
+	<input type="text" id="giName"><br>
+	<textarea id="giDesc"></textarea><br>
+	<div id="fileDiv" style="border:1px solid blue">
+		<img src="" style="width:100px" id="img1">
+		<input type="file" id="file1" onchange="preview(this,'img1')"><input type="number" id="sort1" value="1"><button
+			onclick="addFileInput(this)">+</button>
+	</div>
+	<button onclick="addGoodsInfo()">등록</button>
+	<script>
+		function preview(fileInput, imgId) {
+			document.querySelector(`#${imgId}`).src = URL.createObjectURL(fileInput.files[0]);
+		}
+		function addFileInput(button) {
+			const files = document.querySelectorAll('input[type=file]');
+			const fileId = 'file' + (files.length+ 1);
+			const html = `<div id="fileDiv${files.length + 1}"><img src=""style="width:100px" id="img${files.length + 1}">`
+				+ `<input type="file" id="${fileId}" onchange="preview(this,'img${files.length+1}')">`
+				+ `<input type="number" id="sort${files.length+1}" value="${files.length + 1}">`
+				+ `<button onclick="removeFileInput('fileDiv${files.length+1}')">-</button>${button.outerHTML}</div>`;
+			button.remove();
+			document.querySelector('#fileDiv').insertAdjacentHTML('beforeend',html);
+			console.log(files[i].files[0]);
+		}
+		function removeFileInput(divId) {
+			document.querySelector(`#${divId}`).remove();
+		}
+		function addGoodsInfo() {
+			const files = document.querySelectorAll('input[type=file]');
+			const sorts = document.querySelectorAll('input[id^=sort]');
+			const formData = new FormData();
+			formData.append('giName', document.querySelector('#giName').value);
+			formData.append('giDesc', document.querySelector('#giDesc').value);
+			for(let i = 0; i < files.length; i++) {
+				console.log(files[i].files[0]);
+				formData.append(`goodsFiles[${i}].file`, files[i].files[0]);
+				formData.append(`goodsFiles[${i}].gfiSort`, sorts[i].value);
+				formData.append(`goodsFiles[${i}].status`, 'INSERT');
 			}
-		const xhr =new XMLHttpRequest();
-		xhr.open('POST','/goods-infos');
-		xhr.onreadystatechange =function(){
-			if(xhr.readyState === xhr.DONE){
-				if(xhr.status ===200){
-				 alert 
+			const xhr = new XMLHttpRequest();
+			xhr.open('POST','/goods-infos');
+			xhr.onreadystatechange = function() {
+				if(xhr.readyState === xhr.DONE) {
+					if(xhr.status === 200) {
+						console.log(xhr.responseText);
+					}
 				}
 			}
+			xhr.send(formData);
 		}
-		xhr.send(formData);
-	}
-</script>
+	</script>
 </body>
+
 </html>

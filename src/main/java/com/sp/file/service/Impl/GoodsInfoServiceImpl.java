@@ -45,6 +45,12 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
 		return goodsInfo;
 	}
 
+	@Override
+	public int updateGoodsInfo(GoodsInfoVO goods) {
+		int result =goodsMapper.updateGoodsInfo(goods);
+		return 0;
+	}
+
 }
 
 

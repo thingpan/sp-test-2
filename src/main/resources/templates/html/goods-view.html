@@ -1,67 +1,104 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+	<meta charset="EUC-KR">
+	<title>Insert title here</title>
 </head>
+
 <body>
 	<input type="text" id="giNum" readonly>
-<input type="text" id="giName"><br>
-<textarea id="giDesc"></textarea><br>
-<div id ="fileDiv">
-<input type="file" id="file1"><input type ="number" id="sort" value="1"><button onclick="addFileInput(this)">+</button>
-</div>
+	<input type="text" id="giName"><br>
+	<textarea id="giDesc"></textarea><br>
+		<button onclick="addFileInput(this)">+</button>
+	<div id="fileDiv">
+	
 
-<button onclick="addGoodsInfo()">등록</button>
-<script>
-	window.addEventListener('load',async function(){
-		const res =await fetch('/goods-infos/[[[${param.giNum}]]');
-		const goodsInfo =await res.json();
-		document.querySelector('#giNum').value=goodsInfo.giNum;
-		document.querySelector('#giName').value=goodsInfo.giName;
-		document.querySelector('#giDesc').value=goodsInfo.giDesc; 
-		console.log(goodsInfo.goodsFiles);
-		for(let i=0; i<goodsInfo.goodsFiles.length; i++){
-		const html =`<div id ="fileDiv${i+1}"><img src="${goodsFile.gfiPath}" style="width:100px">`
-		+`<button onclick="removeFileInput('fileDiv${i+1}')">-</button>`
-		+  `<div>`
-			document.querySelector('#fileDiv').insertAdjacentHTML('beforeend',html);
+	</div>
+
+	<button onclick="addGoodsInfo()">등록</button>
+	<script>
+		let goodsFiles;
+		window.addEventListener('load', async function () {
+			const res = await fetch('/goods-infos/[[${param.giNum}]]');
+			const goodsInfo = await res.json();
+			goodsFiles = goodsInfo.goodsFiles;
+			document.querySelector('#giNum').value = goodsInfo.giNum;
+			document.querySelector('#giName').value = goodsInfo.giName;
+			document.querySelector('#giDesc').value = goodsInfo.giDesc;
+			console.log(goodsInfo.goodsFiles);
+			for (let i = 0; i < goodsFiles.length; i++) {
+				const goodsFile = goodsInfo.goodsFiles[i];
+				const html = `<div id="fileDiv${i + 1}">`
+					+ `<img src="${goodsFile.gfiPath}" style="width=100px" id="img${i + 1}">`
+					+ `<input type="file" id="file${i + 1}" onchange="preview(this,'img${i + 1}', ${goodsFile.gfiNum}),"data-gfi-num=${goodsFiles.gfinum}">`
+					+ `<input type="number" id="sort${i + 1}" value="${goodsFile.gfiSort}">`
+					+ `<button onclick="removeFileInput('fileDiv${i + 1}'), ${goodsFile.gfiNum}">-</button>`
+					+ `<div>`;
+				document.querySelector('#fileDiv').insertAdjacentHTML('beforeend', html);
 			}
-	})
-		function addFileInput(button){
- 		const files  =document.querySelectorAll('input[type=file]');
-		const fileId ='file'+(files.length+1);
-		const html =`<div id =fileDiv${files.length+1}><input type="file" id="${fileId}">`
-		+`<input type="text" id="sort${files.length+1}" value="${files.length+1}">`
-		+`<button onclick="removeFileInput('fileDiv${files.length+1}')">-</button>${button.outerHTML}</div>`;
-		button.remove(); 
-		document.querySelector('#fileDiv').insertAdjacentHTML('beforeend',html)
-	}
-	function removeFileInput(divId){
-		document.querySelector(`#${divId}`).remove();
-	}
-	function addGoodsInfo(){
-		const files =document .querySelectorAll('input[type =file]');
-		const sorts =document.querySelectorAll('input[id^=sort]');
-		const formData =new FormData();
-		formData.append('giName','홍개라면');
-		formData.append('giDesc','맛있다!!');
-		for(let i=0; i<files.length; i++){
-			formData.append(`goodsFiles[${i}].file`,files[i].files[0]);
-			formData.append(`goodsFiles[${i}].gfiSort`,sorts[i].value);
-			formData.append(`goodsFiles[${i}].status`,'INSERT');
+		});
+		function preview(fileInput, imgId, gfiNum) {
+			for (const goodsFile of goodsFiles) {
+				if (gfiNum == goodsFile.gfiNum) {
+					goodsFile.status = 'UPDATE';
+					break;
+				}
 			}
-		const xhr =new XMLHttpRequest();
-		xhr.open('POST','/goods-infos');
-		xhr.onreadystatechange =function(){
-			if(xhr.readyState === xhr.DONE){
-				if(xhr.status ===200){
-				 alert 
+			document.querySelector(`#${imgId}`).src = URL.createObjectURL(fileInput.files[0]);
+		}
+		function addFileInput(button) {
+			const files = document.querySelectorAll('input[type=file]');
+			const fileId = 'file' + (files.length + 1);
+			const html = `<div id=fileDiv${files.length + 1}><input type="file" id="${fileId}">`
+				+ `<input type="number" id="sort${files.length + 1}" value="${files.length + 1}">`
+				+ `<button onclick="removeFileInput('fileDiv${files.length + 1}')">-</button></div>`;
+			document.querySelector('#fileDiv').insertAdjacentHTML('beforeend', html);
+		}
+		function removeFileInput(divId, gfiNum) {
+			for (const goodsFile of goodsFiles) {
+				if (gfiNum == goodsFile.gfiNum) {
+					goodsFile.status = 'DELETE'
+					break;
 				}
 			}
 		}
-		xhr.send(formData);
-	}
-</script>
+		function addGoodsInfo() {
+			const files = document.querySelectorAll('input[type=file]');
+			const sorts = document.querySelectorAll('input[id^=sort]');
+			const formData = new FormData();
+			formData.append('giName', document.querySelector('#giName').value);
+			formData.append('giDesc', document.querySelector('#giDesc').value);
+			for (let i = 0; i < files.length; i++) {
+				if (files[i].files.length) {
+						formData.append(`goodsFiles[${i}].file`, files[i].files[0]);
+					}
+					formData.append(`goodsFiles[${i}].gfiSort`, sorts[i].value);
+					if (files[i].getAttribute('data-gfi-num')) {
+						formData.append(`goodsFiles[${i}].status`, 'UPDATE');
+					} else {
+						formData.append(`goodsFiles[${i}].status`, 'INSERT');
+					}
+				}
+				for(const goodsFile of goodsFiles) {
+					if(goodsFile.status=='DELETE'){
+						formData.append(`goodsFiles[${i}].status`, 'DELETE');
+						formData.append(`goodsFiles[${i}].gfiNum`, `${goodsFile.gfiNum}`);
+						formData.append(`goodsFiles[${i++}].gfiPath`, `${goodsFile.gfiPath}`);
+					}
+				}
+				const xhr = new XMLHttpRequest();
+				xhr.open('PATCH', '/goods-infos');
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState === xhr.DONE) {
+						if (xhr.status === 200) {
+							alert(xhr.responseText);
+						}
+					}
+				}
+				xhr.send(formData);
+			}
+			
+	</script>
 </body>
 </html>

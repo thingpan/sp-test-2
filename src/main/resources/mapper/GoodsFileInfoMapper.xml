@@ -10,6 +10,25 @@
 	FROM GOODS_FILE_INFO
 	WHERE GI_NUM =#{giNum} 
 </select>
+<update id="updateGoodsFileInfo">
+	UPDATE GOODS_FILE_INFO
+	<set>
+		<if test='gfiPath !=null and gfiPath !=""'>
+		GFI_PATH =#{gfiPath},
+		</if>
+		<if test='gfiOrginName !=null and fiOrginName!=""'>
+		GFI_ORIGIN_NAME =#{gfiOrginName},
+		</if>
+		<if test='gfiSort !=null and gfiSort !=""'>
+		GFI_SORT =#{gfiSort},
+		</if>
+	</set>
+
+	WHERE GFI_NUM =#{gfiNum}
+</update>
+<delete id ="deleteGoodsFileInfo">
+	DELETE GOODS_FILE_INFO WHERE GFI_NUM =#{gfiNum}
+</delete>
 
 
 
