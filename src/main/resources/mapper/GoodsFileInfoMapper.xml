@@ -1,35 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace ="com.sp.file.mapper.GoodsFileInfoMapper">
-<insert id ="insertGoodsFileInfo">
-	INSERT GOODS_FILE_INFO(GFI_PATH,GFI_ORIGIN_NAME,GI_NUM ,GFI_SORT)
-	VALUES(#{gfiPath},#{gfiOriginName},#{giNum},#{gfiSort})
-</insert>
-<select id="selectGoodsFileInfos">
-	SELECT GFI_NUM,GFI_PATH,GFI_ORIGIN_NAME,GI_NUM
-	FROM GOODS_FILE_INFO
-	WHERE GI_NUM =#{giNum} 
-</select>
-<update id="updateGoodsFileInfo">
-	UPDATE GOODS_FILE_INFO
-	<set>
-		<if test='gfiPath !=null and gfiPath !=""'>
-		GFI_PATH =#{gfiPath},
-		</if>
-		<if test='gfiOrginName !=null and fiOrginName!=""'>
-		GFI_ORIGIN_NAME =#{gfiOrginName},
-		</if>
-		<if test='gfiSort !=null and gfiSort !=""'>
-		GFI_SORT =#{gfiSort},
-		</if>
-	</set>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-	WHERE GFI_NUM =#{gfiNum}
-</update>
-<delete id ="deleteGoodsFileInfo">
-	DELETE GOODS_FILE_INFO WHERE GFI_NUM =#{gfiNum}
-</delete>
-
-
-
+<mapper namespace="com.sp.file.mapper.GoodsFileInfoMapper">
+	<insert id="insertGoodsFileInfo">
+		INSERT GOODS_FILE_INFO(GFI_PATH, GFI_ORIGIN_NAME, GI_NUM, GFI_SORT)
+		VALUES(#{gfiPath}, #{gfiOriginName}, #{giNum}, #{gfiSort})
+	</insert>
+	<select id="selectGoodsFileInfos">
+		SELECT GFI_NUM, GFI_PATH, GFI_ORIGIN_NAME, GI_NUM, GFI_SORT
+		FROM GOODS_FILE_INFO
+		WHERE GI_NUM = #{giNum}
+	</select>
+	<update id="updateGoodsFileInfo">
+		UPDATE GOODS_FILE_INFO
+		<set>
+			<if test='gfiPath != null and gfiPath != ""'>
+				GFI_PATH = #{gfiPath},
+			</if>
+			<if test='gfiOriginName != null and gfiOriginName != ""'>
+				GFI_ORIGIN_NAME = #{gfiOriginName},
+			</if>
+			<if test='gfiSort != null and gfiSort != ""'>
+				GFI_SORT = #{gfiSort}
+			</if>
+		</set>
+		WHERE GFI_NUM = #{gfiNum}
+	</update>
+	<delete id="deleteGoodsFileInfo">
+		DELETE FROM GOODS_FILE_INFO WHERE GFI_NUM = #{gfiNum}
+	</delete>
 </mapper>

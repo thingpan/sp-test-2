@@ -29,7 +29,7 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
 		int result =goodsMapper.insertGoodsInfo(goods);
 		log.info("giNum=>{}",goods.getGiNum());
 		result +=goodsFileService.insertGoodsFileInfos(goods.getGiNum() ,goods.getGoodsFiles());
-		return goodsMapper.insertGoodsInfo(goods);
+		return result;
 	}
 
 	@Override
@@ -48,7 +48,8 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
 	@Override
 	public int updateGoodsInfo(GoodsInfoVO goods) {
 		int result =goodsMapper.updateGoodsInfo(goods);
-		return 0;
+		result += goodsFileService.updateGoodsFileInfos(goods.getGiNum(), goods.getGoodsFiles());
+		return result;
 	}
 
 }

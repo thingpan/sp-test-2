@@ -12,13 +12,13 @@
 <select id="selectGoodsInfo">
 	SELECT GI_NUM ,GI_NAME,GI_DESC
 	FROM GOODS_INFO
-	WHERE GI_NUM =#{giNum}
+	WHERE GI_NUM = #{giNum}
 	</select>
 	<update id="updateGoodsInfo">
 	UPDATE GOODS_INFO
-	SET GI_NAME =#{giName},
-	GI_DESC =#{giDesc}
-	WHERE GI_NUM =#{giNum}
+	SET GI_NAME = #{giName},
+	GI_DESC = #{giDesc}
+	WHERE GI_NUM = #{giNum}
 	
 	</update>
 </mapper>

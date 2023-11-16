@@ -48,14 +48,14 @@ public class GoodsFileInfoServiceImpl implements GoodsFileInfoService {
 		// TODO Auto-generated method stub
 		int result = 0;
 		for (GoodsFileInfoVO goodsFile : goodsFiles) {
-			MultipartFile file = goodsFile.getFile();
+			MultipartFile file = goodsFile.getFile(); //사용자가 업로드한 File을 핸들러에서 손쉽게 다룰 수 있게 도와주는 매개변수 중 하나입니다.
 			String originName = goodsFile.getFile().getOriginalFilename();
 			String extName = originName.substring(originName.lastIndexOf("."));
-			String fileName = UUID.randomUUID() + extName;
+			String fileName = UUID.randomUUID() + extName; //uuid생성
 			goodsFile.setGfiOriginName(originName);
 			goodsFile.setGfiPath("/file/" + fileName);
 			try {
-				file.transferTo(new File(uploadFilePath + fileName));
+				file.transferTo(new File(uploadFilePath + fileName));//transferTo 파일을 변환 
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				log.error("file upload error=>{}", e);
@@ -86,7 +86,7 @@ public class GoodsFileInfoServiceImpl implements GoodsFileInfoService {
 				continue;
 			}
 			MultipartFile file = goodsFile.getFile();
-			if (file != null) {
+			if (file!= null) {
 				String originName = file.getOriginalFilename();
 				String extName = originName.substring(originName.lastIndexOf("."));
 				String fileName = UUID.randomUUID() + extName;

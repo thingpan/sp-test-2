@@ -32,6 +32,6 @@ upload:
   file-path: C:\dev\upload\
   
 download: 
-  file-path: file:///d  ev/upload/
+  file-path: file:///dev/upload/
   resource-url: /file/**
 
