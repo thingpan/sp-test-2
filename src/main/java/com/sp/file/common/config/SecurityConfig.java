@@ -27,6 +27,7 @@ public class SecurityConfig {
 		hs.authorizeHttpRequests(req->
 			req.antMatchers("/login","/join","/html/login","/html/join","/html/login-fail")
 			.permitAll()
+			.antMatchers("/html/root/index").hasRole("ROOT")
 			.anyRequest()
 			.authenticated()
 		)
@@ -41,6 +42,7 @@ public class SecurityConfig {
 			logout.logoutUrl("/logout")
 			.logoutSuccessUrl("/html/login"))
 		.csrf(csrf->csrf.disable())
+		.exceptionHandling(ex ->ex.accessDeniedPage("/html/denied"))
 		.userDetailsService(userInfoService);
 		
 		return hs.build();

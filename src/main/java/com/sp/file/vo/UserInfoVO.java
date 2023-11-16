@@ -15,6 +15,10 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UserInfoVO  implements UserDetails{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int uiNum;
 	private String uiId;
 	private String uiPwd;
@@ -26,10 +30,11 @@ public class UserInfoVO  implements UserDetails{
 	private String credat;
 	private String lmodat;
 	private String active;
+	private Collection< ? extends GrantedAuthority> authorities;
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return null;
+		return authorities;
 	}
 	@Override
 	public String getPassword() {

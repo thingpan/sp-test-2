@@ -5,7 +5,7 @@
 <mapper namespace="com.sp.file.mapper.UserInfoMapper">
  <select id ="selectUserInfoById" resultType ="com.sp.file.vo.UserInfoVO">
 	SELECT * FROM USER_INFO
-		WHERE UI_ID = #{uiId}
+	WHERE UI_ID = #{uiId}
  </select>
  <insert id="insertUserInfo"  parameterType="com.sp.file.vo.UserInfoVO">
 	INSERT INTO USER_INFO(UI_NAME, UI_ID, UI_PWD, UI_MOBILE,UI_EMAIL, UI_BIRTH ,UI_ROLES)
