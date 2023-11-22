@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.ibatis.javassist.bytecode.stackmap.BasicBlock.Catch;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +29,7 @@ public class JWTProvider {
 	private final String jwtSecret;
 	private final int jwtExpire;
 
-	public JWTProvider(@Value("jwt.Secret") String jwtSecret, @Value("jwt.expire") int jwtExpire) {
+	public JWTProvider(@Value("${jwt.secret}") String jwtSecret, @Value("${jwt.expire}") int jwtExpire) {
 		this.jwtExpire = jwtExpire;
 		this.jwtSecret = jwtSecret;
 	}
@@ -61,6 +62,15 @@ public class JWTProvider {
 			log.error(je.getMessage());
 		}
 		return null;
+	}
+
+	public boolean validateJWT(String jwt) {
+		try {
+			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 
 }

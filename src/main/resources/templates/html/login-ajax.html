@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3>로그인</h3>
+	
+	<form method="POST" action="/login">
+		<input type="text" id="uiId" name="uiId" placeholder="아이디"><br>
+		<input type="text" id="uiPwd" name="uiPwd" placeholder="비번"><br>
+		<button onclick="login()">로그인</button>
+	</form>
+	<script>
+		async  function login(){
+			const param ={
+				uiId :document.querySelector('#uiId').value,
+							uiPwd :document.querySelector('#uiPwd').value
+			}
+			const res =await fetch('/login',{
+				method:'POST',
+				body :JSON.stringify(param),
+				headers:{
+					'Content-Type':'application/json'
+				}
+			});
+			const data =await res.json();
+		}
+	</script>
+</body>
+</html>
